@@ -1,0 +1,9 @@
+[Unit]
+Description=Run webcam service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/drazer_cam/video_server/main.py
+
+[Install]
+WantedBy=multi-user.target

@@ -17,6 +17,11 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 
+@app.route('/')
+def index():
+    return {'data': 'Hello World'}
+
+
 def capture_frames():
     """Capture frames from the default camera and emit them to clients."""
     cap = cv2.VideoCapture(0)

@@ -4,10 +4,13 @@ import cv2
 from flask_socketio import SocketIO, emit
 import base64
 import eventlet
+import sys
 
 PORT = 5001
 FPS = 10
 FRAME_LABEL = 'frame'
+DRAZER_KEY_FILE = 'drazer_cam.key'
+DRAZER_CRT_FILE = 'drazer_cam.crt'
 
 # Creating a flask app and using it to instantiate a socket object
 app = Flask(__name__)
@@ -59,5 +62,12 @@ def test_connect(auth):
 
 # Notice how socketio.run takes care of app instantiation as well.
 if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        SCRIPT_PATH = sys.argv[1]
+    else:
+        SCRIPT_PATH = ''
+
     socketio.start_background_task(capture_frames)
-    socketio.run(app, host='0.0.0.0', allow_unsafe_werkzeug=True, port=PORT)
+    socketio.run(app, host='0.0.0.0', allow_unsafe_werkzeug=True, port=PORT,
+                 certfile=SCRIPT_PATH + DRAZER_CRT_FILE,
+                 keyfile=SCRIPT_PATH + DRAZER_KEY_FILE)
